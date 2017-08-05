@@ -1,12 +1,10 @@
 from techpaisa_adapter import TPExtractor
-from ema_calculator import EMACalculator
 
 from time import time
 from stock_analyzer_helper import StockAnalyzerHelper
 from analyzer_constants import AnalyzerConstants
 
 tp_ext = TPExtractor()
-ema_calc = EMACalculator()
 helper = StockAnalyzerHelper()
 constants = AnalyzerConstants()
 
@@ -23,10 +21,6 @@ def append_to_report_file(file_name, text):
 	with open(file_name, "a") as report:
 		report.write(text)
 		#report.write(constants.record_separator)
-
-def fill_10_and_5_day_emas():
-	ema_calc.populate_n_day_ema_in_stock_data(10, stock_data, constants.field_ema_10, constants.field_sma_20, constants.field_price)
-	ema_calc.populate_n_day_ema_in_stock_data(5, stock_data, constants.field_ema_5, constants.field_sma_20, constants.field_price)
 
 def analyze(stock_data, length, stock_criterias):
 	results = []
@@ -57,9 +51,6 @@ for ticker in all_tickers:
 	if length == 0:
 		print "No data found for ticker = " + ticker
 		continue
-
-	# Fill 10 day and 5 day EMA values in our stock_data
-	fill_10_and_5_day_emas()
 
 	for criteria in comparison_criterias:
 		results = analyze(stock_data, length, criteria)

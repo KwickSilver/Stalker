@@ -13,11 +13,19 @@ class AnalyzerConstants:
 	rsi_threshold = 50.00
 
 	field_ema_5 = "ema_5"
+	field_ema_9 = "ema_9"
 	field_ema_10 = "ema_10"
+	field_ema_12 = "ema_12"
+	field_ema_20 = "ema_20"
+	field_ema_26 = "ema_26"
+	field_ema_50 = "ema_50"
+	
 	field_rsi = "rsi"
 	field_price = "price"
 	field_date = "date"
+	
 	field_sma_200 = "sma_200"
+	field_sma_100 = "sma_100"
 	field_sma_50 = "sma_50"
 	field_sma_20 = "sma_20"
 
