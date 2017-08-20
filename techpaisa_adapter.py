@@ -34,8 +34,8 @@ class TPExtractor:
 		# Extract date price and SMAs
 		for index in range(start_range,rsi_json_data_length):
 			one_day_data = rsi_json_data[index]
-			print one_day_data
-			print one_day_data[0]
+			#print one_day_data
+			#print one_day_data[0]
 			date = convert_json_date_to_string(one_day_data[0])
 			data.append({constants.field_date:date, constants.field_price:float(one_day_data[1]), constants.field_rsi:float(one_day_data[2])}) 
 		
