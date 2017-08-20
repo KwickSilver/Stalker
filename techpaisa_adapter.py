@@ -3,6 +3,8 @@ from datetime import datetime,date
 import json
 from analyzer_constants import AnalyzerConstants
 from ma_calculator import MACalculator
+from decimal import Decimal
+import sys
 
 ma_calculator = MACalculator()
 constants = AnalyzerConstants()
@@ -11,6 +13,8 @@ constants = AnalyzerConstants()
 #techpaisa_screen_api_url = 'http://techpaisa.com/api/stock-screener/?ind=nifty&app_id=92f8a520&app_key=85ce9c95989efc51c21678f5821e459f'
 #response = requests.get(techpaisa_screen_api_url.format(app_id='your_app_id', app_key='your_app_key'))
 date_format = "%Y/%m/%d"
+date_number_format = "%Y%m%d"
+
 techpaisa_analysis_api_url = 'http://techpaisa.com/api/chart/{nse_symbol}/{analysis_type}/?ind=nifty&app_id=92f8a520&app_key=85ce9c95989efc51c21678f5821e459f'
 rsi = 'rsi'
 
@@ -34,12 +38,10 @@ class TPExtractor:
 		# Extract date price and SMAs
 		for index in range(start_range,rsi_json_data_length):
 			one_day_data = rsi_json_data[index]
-			print one_day_data
-			print one_day_data[0]
-			date = convert_json_date_to_string(one_day_data[0])
-			data.append({constants.field_date:date, constants.field_price:float(one_day_data[1]), constants.field_rsi:float(one_day_data[2])}) 
-		
+			date = convert_json_date_to_number(one_day_data[0])
+			data.append({constants.field_ticker:ticker, constants.field_date:date, constants.field_price:Decimal(one_day_data[1]), constants.field_rsi:Decimal(one_day_data[2])}) 
 		fill_moving_averages(data, rsi_json_data_length)
+		
 		return data
 
 
@@ -53,9 +55,9 @@ class TPExtractor:
 		json_data = json_data[-1*analysis_period:]
 		return json_data
 
-def convert_json_date_to_string(json_date):
+def convert_json_date_to_number(json_date):
 	datetime_object = datetime.strptime(json_date, date_format)
-	date = datetime_object.strftime(date_format)
+	date = Decimal(datetime_object.strftime(date_number_format))
 	return date
 
 def fill_moving_averages(stock_data, length):
@@ -67,3 +69,5 @@ def fill_moving_averages(stock_data, length):
 	ma_calculator.populate_n_day_sma_in_stock_data(50, stock_data, length, constants.field_sma_50, constants.field_price)
 	ma_calculator.populate_n_day_sma_in_stock_data(100, stock_data, length, constants.field_sma_100, constants.field_price)
 	ma_calculator.populate_n_day_sma_in_stock_data(200, stock_data, length, constants.field_sma_200, constants.field_price)
+
+	ma_calculator.populate_macd_in_stock_data(stock_data, length, constants.field_macd, constants.field_macd_signal)

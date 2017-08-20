@@ -1,9 +1,10 @@
 import boto3
+import os
 
 class TickerDDB():
 	def __init__(self):
 		# Get the service resource.
-		self.dynamodb = boto3.resource('dynamodb', region_name='ap-south-1', aws_access_key_id='AKIAJQV3HABYI5WIIFJA',aws_secret_access_key='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')
+		self.dynamodb = boto3.resource('dynamodb', region_name='ap-south-1', aws_access_key_id=os.environ['AWS_ACCESS_KEY'],aws_secret_access_key=os.environ['AWS_SECRET_KEY'])
 		self.table = self.dynamodb.Table('ticker')
 
 	def put(self, ticker_name, ticker_description):
@@ -26,7 +27,4 @@ class TickerDDB():
 		response = self.table.scan()
 		items = response['Items']
 		return items
-		'''for item in items:
-			print item.get('ticker_name')
-			print item.get('ticker_description')'''
 

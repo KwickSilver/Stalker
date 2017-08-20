@@ -12,6 +12,7 @@ class AnalyzerConstants:
 
 	rsi_threshold = 50.00
 
+	field_ticker = "ticker_name"
 	field_ema_5 = "ema_5"
 	field_ema_9 = "ema_9"
 	field_ema_10 = "ema_10"
@@ -28,6 +29,9 @@ class AnalyzerConstants:
 	field_sma_100 = "sma_100"
 	field_sma_50 = "sma_50"
 	field_sma_20 = "sma_20"
+
+	field_macd = "macd"
+	field_macd_signal = "macd_signal"
 
 	field_A = "field_A"
 	field_B = "field_B"
