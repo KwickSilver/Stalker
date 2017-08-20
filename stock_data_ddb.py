@@ -2,10 +2,12 @@ import boto3
 import datetime
 import pandas as pd
 from boto3.dynamodb.conditions import Key, Attr
+import os
 
 class StockDataDDB():
 	def __init__(self):
 		# Get the service resource.
+
 		accessKeys = pd.read_csv('accessKeys.csv')
 		access_key_id = accessKeys['Access key ID'][0]
 		secret_access_key = accessKeys['Secret access key'][0]

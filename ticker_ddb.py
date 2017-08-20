@@ -1,4 +1,5 @@
 import boto3
+import os
 
 class TickerDDB():
 	def __init__(self):
@@ -29,7 +30,4 @@ class TickerDDB():
 		response = self.table.scan()
 		items = response['Items']
 		return items
-		'''for item in items:
-			print item.get('ticker_name')
-			print item.get('ticker_description')'''
 

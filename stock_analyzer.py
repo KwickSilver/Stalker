@@ -51,7 +51,8 @@ for ticker in all_tickers:
 	if length == 0:
 		print "No data found for ticker = " + ticker
 		continue
-
+	print stock_data
+	continue
 	for criteria in comparison_criterias:
 		results = analyze(stock_data, length, criteria)
 		add_result_to_report(ticker, criteria, results, stock_data, length)
