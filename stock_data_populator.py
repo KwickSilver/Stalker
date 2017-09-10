@@ -14,7 +14,11 @@ tickers = ticker_ddb_accessor.get_batch()
 for ticker in tickers:
 	ticker_name = ticker['ticker_name']
 	current_date = datetime.today()
-	analysis_period = (current_date - stock_ddb_accessor.get_last_date(ticker_name)).days
+	last_date = stock_ddb_accessor.get_last_date(ticker_name)
+	if last_date is None:
+		analysis_period = 2500
+	else:
+		analysis_period = (current_date - last_date).days
 	try:
 		stock_data = tp_extractor.extract_stock_data(ticker_name, analysis_period)
 		print "STOCK_DATA_POPULATOR: Analysis period: " + str(analysis_period)
