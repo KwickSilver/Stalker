@@ -20,7 +20,7 @@ rsi = 'rsi'
 
 class TPExtractor:
 	def extract_stock_data(self, ticker, analysis_period):
-		print "Extracting data for ticker: " + ticker
+		print "TP_EXTRACTOR: Extracting data for ticker: " + ticker
 		rsi_json_data = self.get_data_list_from_json_response(ticker, rsi, analysis_period)
 
  		start_range = 0

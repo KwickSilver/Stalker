@@ -1,6 +1,6 @@
 import boto3
 import datetime
-import pandas as pd
+import pandas
 from boto3.dynamodb.conditions import Key, Attr
 import os
 
@@ -8,7 +8,7 @@ class StockDataDDB():
 	def __init__(self):
 		# Get the service resource.
 
-		accessKeys = pd.read_csv('accessKeys.csv')
+		accessKeys = pandas.read_csv('accessKeys.csv')
 		access_key_id = accessKeys['Access key ID'][0]
 		secret_access_key = accessKeys['Secret access key'][0]
 		self.dynamodb = boto3.resource('dynamodb', region_name='ap-south-1', aws_access_key_id=access_key_id,aws_secret_access_key=secret_access_key)
@@ -40,23 +40,22 @@ class StockDataDDB():
 			response = self.table.query(KeyConditionExpression=Key('ticker_name').eq(ticker_name), ScanIndexForward=False, Limit=n)
 		return response['Items']
 
-	def get_first_date(self, ticker_name):
+	def get_last_date(self, ticker_name):
 		response = self.table.query(KeyConditionExpression=Key('ticker_name').eq(ticker_name), ScanIndexForward=False, Limit=1)
 		if len(response['Items']) > 0:
-			return response['Items'][0].get('date')
+			return datetime.datetime.strptime(str(response['Items'][0].get('date')), '%Y%m%d')
 		else:
 			return None;
 	
-	def get_last_date(self, ticker_name):
+	def get_first_date(self, ticker_name):
 		response = self.table.query(KeyConditionExpression=Key('ticker_name').eq(ticker_name), ScanIndexForward=True, Limit=1)
 		if len(response['Items']) > 0:
-			return response['Items'][0].get('date')
+			return datetime.datetime.strptime(str(response['Items'][0].get('date')), '%Y%m%d')
 		else:
 			return None;
 
 	def batch_get(self):
 		response = self.table.scan()
-		#print response['Items']
 		return response['Items']
 
 	def get_item(self, stock_data):

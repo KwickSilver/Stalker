@@ -1,13 +1,14 @@
 import boto3
 import os
+import pandas
 
 class TickerDDB():
 	def __init__(self):
 		# Get the service resource.
-		accessKeys = pd.read_csv('accessKeys.csv')
+		accessKeys = pandas.read_csv('accessKeys.csv')
 		access_key_id = accessKeys['Access key ID'][0]
 		secret_access_key = accessKeys['Secret access key'][0]
-		self.dynamodb = boto3.resource('dynamodb', region_name='ap-south-1', aws_access_key_id='AKIAJQV3HABYI5WIIFJA',aws_secret_access_key='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')
+		self.dynamodb = boto3.resource('dynamodb', region_name='ap-south-1', aws_access_key_id=access_key_id,aws_secret_access_key=secret_access_key)
 		self.table = self.dynamodb.Table('ticker')
 
 	def put(self, ticker_name, ticker_description):
