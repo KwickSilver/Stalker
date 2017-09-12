@@ -20,7 +20,7 @@ rsi = 'rsi'
 
 class TPExtractor:
 	def extract_stock_data(self, ticker, analysis_period):
-		print "TP_EXTRACTOR: Extracting data for ticker: " + ticker
+		#print "TP_EXTRACTOR: Extracting data for ticker: " + ticker
 		rsi_json_data = self.get_data_list_from_json_response(ticker, rsi, analysis_period)
 
  		start_range = 0
@@ -38,7 +38,6 @@ class TPExtractor:
 		# Extract date price and SMAs
 		for index in range(start_range,rsi_json_data_length):
 			one_day_data = rsi_json_data[index]
-
 			date = convert_json_date_to_number(one_day_data[0])
 			data.append({constants.field_ticker:ticker, constants.field_date:date, constants.field_price:Decimal(one_day_data[1]), constants.field_rsi:Decimal(one_day_data[2])}) 
 		fill_moving_averages(data, rsi_json_data_length)
